@@ -1,14 +1,12 @@
 import React from "react";
 
-const SignUp1 = React.lazy(() =>
-  import("./Demo/Authentication/SignUp/SignUp1")
-);
+const Register = React.lazy(() => import("./Demo/Authentication/register"));
 const Signin1 = React.lazy(() =>
   import("./Demo/Authentication/SignIn/SignIn1")
 );
 
 const route = [
-  { path: "/register", exact: true, name: "Signup 1", component: SignUp1 },
+  { path: "/register", exact: true, name: "Register", component: Register },
   { path: "/login", exact: true, name: "Signin 1", component: Signin1 },
 ];
 

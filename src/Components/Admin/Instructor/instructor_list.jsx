@@ -1,5 +1,13 @@
 import React from "react";
-import { Row, Col, Card, Table } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Table,
+  Button,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 
 import Aux from "../../../hoc/_Aux";
 
@@ -10,19 +18,32 @@ const InstructorList = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Card.Title as="h5">Hover Table</Card.Title>
-              <span className="d-block m-t-5">
-                use props <code>hover</code> with <code>Table</code> component
-              </span>
+              <Row>
+                <Col md={6}></Col>
+                <Col md={6}>
+                  <InputGroup>
+                    <FormControl
+                      aria-label="Recipient's username"
+                      aria-describedby="basic-addon2"
+                    />
+                    <InputGroup.Append>
+                      <Button variant="info">Search</Button>
+                    </InputGroup.Append>
+                  </InputGroup>
+                </Col>
+              </Row>
             </Card.Header>
             <Card.Body>
-              <Table responsive hover>
+              <Table responsive style={{ textAlign: "center" }} bordered>
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Course</th>
+                    <th>Department</th>
                   </tr>
                 </thead>
                 <tbody>

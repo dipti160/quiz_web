@@ -1,19 +1,65 @@
-import React from "react";
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-  InputGroup,
-  FormControl,
-  DropdownButton,
-  Dropdown,
-} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Row, Col, Card, Form, Button } from "react-bootstrap";
 
 import Aux from "../../../hoc/_Aux";
+import {
+  createDepartment,
+  getDepartmentById,
+  updateDepartment,
+} from "../../../api";
 
-const DepartmentForm = () => {
+const DepartmentForm = (props) => {
+  const [name, setName] = useState("");
+  const [id, setId] = useState(0);
+
+  useEffect(() => {
+    const fecthDepartmentById = async (id) => {
+      try {
+        const res = await getDepartmentById(id);
+        if (res?.name) {
+          setName(res.name);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (props?.match?.params?.id) {
+      setId(props.match.params.id);
+      fecthDepartmentById(props.match.params.id);
+    }
+
+    return () => {};
+  }, [props?.match?.params]);
+
+  const handleSubmit = async () => {
+    try {
+      if (id) {
+        if (name?.length) {
+          const data = {
+            name: name,
+          };
+          const res = await updateDepartment(id, data);
+          if (Object.values(res)?.length) {
+            props.history.push("/department/list");
+          }
+        }
+      } else {
+        if (name?.length) {
+          const data = {
+            name: name,
+          };
+
+          const res = await createDepartment(data);
+          if (Object.values(res)?.length) {
+            props.history.push("/department/list");
+          }
+        }
+      }
+    } catch (err) {
+      console.log("Error occurred while authenticating: ", err);
+    }
+  };
   return (
     <Aux>
       <Row>
@@ -31,9 +77,15 @@ const DepartmentForm = () => {
                       <Form.Control
                         type="text"
                         placeholder="Enter Department"
+                        onChange={(e) => {
+                          setName(e.target.value);
+                        }}
+                        value={`${name}`}
                       />
                     </Form.Group>
-                    <Button variant="primary">Submit</Button>
+                    <Button variant="primary" onClick={handleSubmit}>
+                      Submit
+                    </Button>
                   </Form>
                 </Col>
               </Row>

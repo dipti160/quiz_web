@@ -83,6 +83,12 @@ const routes = [
     component: CourseForm,
   },
   {
+    path: "/course/edit/:id",
+    exact: true,
+    name: "course",
+    component: CourseForm,
+  },
+  {
     path: "/department/list",
     exact: true,
     name: "department",
@@ -90,6 +96,12 @@ const routes = [
   },
   {
     path: "/department/form",
+    exact: true,
+    name: "department",
+    component: DepartmentForm,
+  },
+  {
+    path: "/department/edit/:id",
     exact: true,
     name: "department",
     component: DepartmentForm,

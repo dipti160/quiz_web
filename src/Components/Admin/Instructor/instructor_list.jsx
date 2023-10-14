@@ -89,7 +89,7 @@ const InstructorList = () => {
                         </td>
                         <td>
                           <Link
-                            to={`/instructor/edit/${instrcutor.id}`}
+                            to={`/admin/instructor/edit/${instrcutor.id}`}
                             style={{ textDecoration: "none", color: "#fff" }}
                           >
                             <Button variant={"success"}>Edit</Button>

@@ -41,7 +41,7 @@ const DepartmentForm = (props) => {
           };
           const res = await updateDepartment(id, data);
           if (Object.values(res)?.length) {
-            props.history.push("/department/list");
+            props.history.push("/admin/department/list");
           }
         }
       } else {
@@ -52,7 +52,7 @@ const DepartmentForm = (props) => {
 
           const res = await createDepartment(data);
           if (Object.values(res)?.length) {
-            props.history.push("/department/list");
+            props.history.push("/admin/department/list");
           }
         }
       }

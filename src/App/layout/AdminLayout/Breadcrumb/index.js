@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import menuItems from "../../../../menu-items"; // Import the menu items based on roles
 import config from "../../../../config";
-import navigation from "../../../../menu-items";
 import DEMO from "../../../../store/constant";
 import Aux from "../../../../hoc/_Aux";
 
@@ -13,26 +12,20 @@ class Breadcrumb extends Component {
   };
 
   componentDidMount() {
-    navigation.items.map((item, index) => {
-      if (item.type && item.type === "group") {
-        this.getCollapse(item, index);
-      }
-      return false;
-    });
-  }
+    const role = "admin"; // Replace 'admin' with the actual user role received from your application state
+    const menu = menuItems[role]; // Get menu items based on user role
 
-  componentWillReceiveProps = () => {
-    navigation.items.map((item, index) => {
+    menu.map((item) => {
       if (item.type && item.type === "group") {
         this.getCollapse(item);
       }
       return false;
     });
-  };
+  }
 
   getCollapse = (item) => {
     if (item.children) {
-      item.children.filter((collapse) => {
+      item.children.forEach((collapse) => {
         if (collapse.type && collapse.type === "collapse") {
           this.getCollapse(collapse);
         } else if (collapse.type && collapse.type === "item") {
@@ -40,7 +33,6 @@ class Breadcrumb extends Component {
             this.setState({ item: collapse, main: item });
           }
         }
-        return false;
       });
     }
   };
@@ -49,10 +41,10 @@ class Breadcrumb extends Component {
     let main, item;
     let breadcrumb = "";
     let title = "Welcome";
-    if (this.state.main && this.state.main.type === "collapse") {
+    if (this.state.main && this.state.main.type === "group") {
       main = (
         <li className="breadcrumb-item">
-          <a href={DEMO.BLANK_LINK}>{this.state.main.title}</a>
+          <Link to={DEMO.BLANK_LINK}>{this.state.main.title}</Link>
         </li>
       );
     }
@@ -61,10 +53,11 @@ class Breadcrumb extends Component {
       title = this.state.item.title;
       item = (
         <li className="breadcrumb-item">
-          <a href={DEMO.BLANK_LINK}>{title}</a>
+          <Link to={DEMO.BLANK_LINK}>{title}</Link>
         </li>
       );
 
+      // Check if breadcrumbs should be displayed for the current item
       if (this.state.item.breadcrumbs !== false) {
         breadcrumb = (
           <div className="page-header">
@@ -75,12 +68,14 @@ class Breadcrumb extends Component {
                     <h5 className="m-b-10">{title}</h5>
                   </div>
                   {/* <ul className="breadcrumb">
-                                        <li className="breadcrumb-item">
-                                            <Link to="/"><i className="feather icon-home"/></Link>
-                                        </li>
-                                        {main}
-                                        {item}
-                                    </ul> */}
+                    <li className="breadcrumb-item">
+                      <Link to="/">
+                        <i className="feather icon-home" />
+                      </Link>
+                    </li>
+                    {main}
+                    {item}
+                  </ul> */}
                 </div>
               </div>
             </div>

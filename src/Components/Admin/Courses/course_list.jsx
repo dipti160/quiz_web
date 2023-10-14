@@ -85,7 +85,7 @@ const CourseList = () => {
                         <td>{course?.Department?.name}</td>
                         <td>
                           <Link
-                            to={`/course/edit/${course.id}`}
+                            to={`/admin/course/edit/${course.id}`}
                             style={{ textDecoration: "none", color: "#fff" }}
                           >
                             <Button variant={"success"}>Edit</Button>

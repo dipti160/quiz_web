@@ -22,10 +22,23 @@ const Login = (props) => {
         const data = await res;
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.data));
+        localStorage.setItem("role", data.data.role);
 
-        props.history.push("/dashboard");
+        switch (data.data.role) {
+          case "admin":
+            props.history.push("/admin/dashboard");
+            break;
+          case "instructor":
+            props.history.push("/instructor/dashboard");
+            break;
+          case "student":
+            props.history.push("/student/dashboard");
+            break;
+          default:
+            console.error("Invalid role");
+        }
       } else {
-        console.error("Authentication failed");
+        console.log("Authentication failed");
       }
     } catch (error) {
       console.log("Error occurred while authenticating: ", error);

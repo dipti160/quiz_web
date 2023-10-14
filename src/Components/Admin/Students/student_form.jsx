@@ -83,7 +83,7 @@ const StudentForm = (props) => {
           };
           const res = await updateStudent(id, data);
           if (Object.values(res)?.length) {
-            props.history.push("/student/list");
+            props.history.push("/admin/student/list");
           }
         }
       } else {
@@ -104,7 +104,7 @@ const StudentForm = (props) => {
 
           const res = await createStudent(data);
           if (Object.values(res)?.length) {
-            props.history.push("/student/list");
+            props.history.push("/admin/student/list");
           }
         }
       }

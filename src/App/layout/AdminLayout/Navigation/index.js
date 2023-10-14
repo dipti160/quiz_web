@@ -11,6 +11,13 @@ import * as actionTypes from "./../../../../store/actions";
 import navigation from "../../../../menu-items";
 
 class Navigation extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userRole: "",
+    };
+  }
+
   resize = () => {
     const contentWidth = document.getElementById("root").clientWidth;
 
@@ -21,6 +28,13 @@ class Navigation extends Component {
 
   componentDidMount() {
     this.resize();
+    let role = localStorage.getItem("role");
+
+    if (role) {
+      this.setState({ userRole: role });
+    } else {
+      this.props.history.push("/login");
+    }
     window.addEventListener("resize", this.resize);
   }
 
@@ -114,7 +128,10 @@ class Navigation extends Component {
           windowWidth={this.props.windowWidth}
           onToggleNavigation={this.props.onToggleNavigation}
         />
-        <NavContent navigation={navigation.items} />
+        <NavContent
+          navigation={navigation.items}
+          userRole={this.state.userRole}
+        />
       </div>
     );
     if (this.props.windowWidth < 992) {
@@ -126,7 +143,10 @@ class Navigation extends Component {
               windowWidth={this.props.windowWidth}
               onToggleNavigation={this.props.onToggleNavigation}
             />
-            <NavContent navigation={navigation.items} />
+            <NavContent
+              navigation={navigation.items}
+              userRole={this.state.userRole}
+            />
           </div>
         </OutsideClick>
       );

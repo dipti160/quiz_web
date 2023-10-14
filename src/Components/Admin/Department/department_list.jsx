@@ -117,7 +117,7 @@ const DepartmentList = () => {
                         <td>{department.name}</td>
                         <td>
                           <Link
-                            to={`/department/edit/${department.id}`}
+                            to={`/admin/department/edit/${department.id}`}
                             style={{ textDecoration: "none", color: "#fff" }}
                           >
                             <Button variant={"success"}>Edit</Button>

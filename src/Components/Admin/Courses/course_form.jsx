@@ -103,7 +103,7 @@ const CourseForm = (props) => {
           };
           const res = await updateCourse(id, data);
           if (Object.values(res)?.length) {
-            props.history.push("/course/list");
+            props.history.push("/admin/course/list");
           }
         }
       } else {
@@ -115,7 +115,7 @@ const CourseForm = (props) => {
 
           const res = await createCourse(data);
           if (Object.values(res)?.length) {
-            props.history.push("/course/list");
+            props.history.push("/admin/course/list");
           }
         }
       }

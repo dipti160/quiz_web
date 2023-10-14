@@ -3,14 +3,14 @@ import { Row, Col, Card, Form, Button } from "react-bootstrap";
 
 import Aux from "../../../hoc/_Aux";
 import {
-  createInstructor,
+  createStudent,
   getAllDepartment,
-  getInstructorById,
+  getStudentById,
   listCourses,
-  updateInstructor,
+  updateStudent,
 } from "../../../api";
 
-const InstrucorForm = (props) => {
+const StudentForm = (props) => {
   const [id, setId] = useState(0);
   const [departments, setDepartments] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -32,12 +32,13 @@ const InstrucorForm = (props) => {
         setCourses(res);
 
         if (props?.match?.params?.id) {
-          const instrcutorData = await getInstructorById(props.match.params.id);
+          const instrcutorData = await getStudentById(props.match.params.id);
           setFirstName(instrcutorData.firstname);
           setLastName(instrcutorData.lastname ? instrcutorData.lastname : "");
           setPhoneNumber(
             instrcutorData.phonenumber ? instrcutorData.phonenumber : ""
           );
+
           setEmail(instrcutorData.email);
           setCourseId(instrcutorData?.UserCourses[0]?.course_id);
           setDepartmentId(instrcutorData?.UserDepartments[0]?.department_id);
@@ -54,6 +55,10 @@ const InstrucorForm = (props) => {
 
     return () => {};
   }, [props?.match?.params?.id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const filteredCourses = courses.filter(
     (course) => course.department_id == departmentId
@@ -76,13 +81,18 @@ const InstrucorForm = (props) => {
             course_id: courseId,
             department_id: departmentId,
           };
-          const res = await updateInstructor(id, data);
+          const res = await updateStudent(id, data);
           if (Object.values(res)?.length) {
-            props.history.push("/admin/instructor/list");
+            props.history.push("/student/list");
           }
         }
       } else {
-        if (firstName?.length && email?.length !== "" && courseId !== "") {
+        if (
+          firstName?.length &&
+          email?.length &&
+          courseId !== "" &&
+          departmentId !== ""
+        ) {
           const data = {
             firstname: firstName,
             lastname: lastName ? lastName : null,
@@ -92,9 +102,9 @@ const InstrucorForm = (props) => {
             department_id: departmentId,
           };
 
-          const res = await createInstructor(data);
+          const res = await createStudent(data);
           if (Object.values(res)?.length) {
-            props.history.push("/admin/instructor/list");
+            props.history.push("/student/list");
           }
         }
       }
@@ -103,17 +113,13 @@ const InstrucorForm = (props) => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <Aux>
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <Card.Title as="h5">Please add instructor here</Card.Title>
+              <Card.Title as="h5">Please add student here</Card.Title>
             </Card.Header>
             <Card.Body>
               <Row>
@@ -206,4 +212,4 @@ const InstrucorForm = (props) => {
   );
 };
 
-export default InstrucorForm;
+export default StudentForm;

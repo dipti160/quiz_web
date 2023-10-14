@@ -7,6 +7,7 @@ import {
   getAllDepartment,
   getInstructorById,
   listCourses,
+  updateInstructor,
 } from "../../../api";
 
 const InstrucorForm = (props) => {
@@ -19,6 +20,7 @@ const InstrucorForm = (props) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,13 +32,19 @@ const InstrucorForm = (props) => {
         setCourses(res);
 
         if (props?.match?.params?.id) {
-          const courseData = await getInstructorById(props.match.params.id);
+          const instrcutorData = await getInstructorById(props.match.params.id);
+          setFirstName(instrcutorData.firstname);
+          setLastName(instrcutorData.lastname ? instrcutorData.lastname : "");
+          setPhoneNumber(
+            instrcutorData.phonenumber ? instrcutorData.phonenumber : ""
+          );
+          setEmail(instrcutorData.email);
+          setCourseId(instrcutorData?.UserCourses[0]?.course_id);
+          setDepartmentId(instrcutorData?.UserDepartments[0]?.department_id);
           setId(props?.match?.params?.id);
-          // setName(courseData.name);
-          // setDepartmentId(courseData.department_id);
         }
 
-        // setLoading(false);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -54,16 +62,25 @@ const InstrucorForm = (props) => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        // if (name?.length && departmentId !== "") {
-        //   const data = {
-        //     name: name,
-        //     department_id: departmentId,
-        //   };
-        //   const res = await updateCourse(id, data);
-        //   if (Object.values(res)?.length) {
-        //     props.history.push("/course/list");
-        //   }
-        // }
+        if (
+          firstName?.length &&
+          email?.length &&
+          courseId !== "" &&
+          departmentId !== ""
+        ) {
+          const data = {
+            firstname: firstName,
+            lastname: lastName ? lastName : null,
+            phone_number: phoneNumber ? phoneNumber : null,
+            email: email,
+            course_id: courseId,
+            department_id: departmentId,
+          };
+          const res = await updateInstructor(id, data);
+          if (Object.values(res)?.length) {
+            props.history.push("/instructor/list");
+          }
+        }
       } else {
         if (firstName?.length && email?.length !== "" && courseId !== "") {
           const data = {
@@ -86,9 +103,9 @@ const InstrucorForm = (props) => {
     }
   };
 
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Aux>

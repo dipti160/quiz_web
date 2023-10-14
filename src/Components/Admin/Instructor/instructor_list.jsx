@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -8,10 +8,38 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import Aux from "../../../hoc/_Aux";
+import { deleteInstructor, listInstructors } from "../../../api";
 
 const InstructorList = () => {
+  const [instrcutors, setInstructors] = useState([]);
+
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      try {
+        const response = await listInstructors();
+        setInstructors(response);
+      } catch (error) {
+        console.log("Error fetching department list:", error);
+      }
+    };
+
+    fetchInstructors();
+
+    return () => {};
+  }, []);
+
+  const handleDelete = async (id) => {
+    const res = await deleteInstructor(id);
+
+    if (res?.message) {
+      setInstructors((prevInstructors) =>
+        prevInstructors.filter((instructor) => instructor.id !== id)
+      );
+    }
+  };
   return (
     <Aux>
       <Row>
@@ -26,6 +54,7 @@ const InstructorList = () => {
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
                     />
+
                     <InputGroup.Append>
                       <Button variant="info">Search</Button>
                     </InputGroup.Append>
@@ -36,35 +65,54 @@ const InstructorList = () => {
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
                 <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Course</th>
-                    <th>Department</th>
-                  </tr>
+                  {instrcutors?.length > 0 && (
+                    <tr>
+                      <th>#</th>
+                      <th>First Name</th>
+                      <th>Email</th>
+                      <th>Course</th>
+                      <th>Department</th>
+                      <th>Action</th>
+                    </tr>
+                  )}
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
+                  {instrcutors?.length > 0 ? (
+                    instrcutors.map((instrcutor, index) => (
+                      <tr key={instrcutor.id}>
+                        <td>{index + 1}</td>
+                        <td>{instrcutor.firstname}</td>
+                        <td>{instrcutor.email}</td>
+                        <td>{instrcutor?.UserCourses[0]?.Course?.name}</td>
+                        <td>
+                          {instrcutor?.UserDepartments[0]?.Department?.name}
+                        </td>
+                        <td>
+                          <Link
+                            to={`/instructor/edit/${instrcutor.id}`}
+                            style={{ textDecoration: "none", color: "#fff" }}
+                          >
+                            <Button variant={"success"}>Edit</Button>
+                          </Link>
+                          <Button
+                            variant={"danger"}
+                            onClick={(e) => handleDelete(instrcutor.id)}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        cell={3}
+                        style={{ border: "none", fontSize: "large" }}
+                      >
+                        No Record Found
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </Table>
             </Card.Body>

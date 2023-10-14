@@ -119,6 +119,12 @@ const routes = [
     component: InstrucorForm,
   },
   {
+    path: "/instructor/edit/:id",
+    exact: true,
+    name: "instructor",
+    component: InstrucorForm,
+  },
+  {
     path: "/student/list",
     exact: true,
     name: "student",
@@ -126,6 +132,12 @@ const routes = [
   },
   {
     path: "/student/form",
+    exact: true,
+    name: "student",
+    component: StudentForm,
+  },
+  {
+    path: "/student/edit/:id",
     exact: true,
     name: "student",
     component: StudentForm,

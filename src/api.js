@@ -1,5 +1,6 @@
 import api from "./axios";
 
+// auth route
 export const registerUser = async (data) => {
   try {
     const response = await api.post("/register", data);
@@ -20,6 +21,7 @@ export const loginUser = async (data) => {
   }
 };
 
+// Admin Route
 // Admin Department
 export const createDepartment = async (data) => {
   try {
@@ -213,6 +215,148 @@ export const updateStudent = async (id, data) => {
 export const deleteStudent = async (id) => {
   try {
     const response = await api.delete(`/student/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Instructor route
+
+// Instructor student
+
+export const createStudentByInstructor = async (data) => {
+  try {
+    const response = await api.post("/instructor/student", data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const listStudentsByInstructor = async (id) => {
+  try {
+    const response = await api.get(`/instructor/students/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getStudentByIdByInstructor = async (id) => {
+  try {
+    const response = await api.get(`/instructor/get-student/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateStudentByInstructor = async (id, data) => {
+  try {
+    const response = await api.put(`/instructor/student/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteStudentByInstructor = async (id) => {
+  try {
+    const response = await api.delete(`/instructor/student/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// exam
+export const createExam = async (data) => {
+  try {
+    const response = await api.post("/instructor/exams", data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getExams = async (id) => {
+  try {
+    const response = await api.get(`/instructor/exams/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getExamById = async (id) => {
+  try {
+    const response = await api.get(`/instructor/get-exams/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateExam = async (id, data) => {
+  try {
+    const response = await api.put(`/instructor/exams/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteExam = async (id) => {
+  try {
+    const response = await api.delete(`/instructor/exams/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// question
+
+export const createQuestion = async (data) => {
+  try {
+    const response = await api.post("/instructor/questions", data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getquestions = async (id) => {
+  try {
+    const response = await api.get(`/instructor/questions/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getQuestionById = async (id) => {
+  try {
+    const response = await api.get(`/instructor/get-question/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateQuestion = async (id, data) => {
+  try {
+    const response = await api.put(`/instructor/questions/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteQuestion = async (id) => {
+  try {
+    const response = await api.delete(`/instructor/questions/${id}`);
     return response.data;
   } catch (error) {
     console.log(error);

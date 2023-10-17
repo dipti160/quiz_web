@@ -11,13 +11,10 @@ import {
 import { Link } from "react-router-dom";
 
 import Aux from "../../../hoc/_Aux";
-import {
-  deleteStudentByInstructor,
-  listStudentsByInstructor,
-} from "../../../api";
+import { deleteQuestion, getquestions } from "../../../api";
 
-const InstructorStudentList = () => {
-  const [students, setStudents] = useState([]);
+const QuestionList = () => {
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     const instructorData = JSON.parse(localStorage.getItem("user"));
@@ -25,8 +22,8 @@ const InstructorStudentList = () => {
     const fetchStudents = async () => {
       try {
         if (instructorData?.id) {
-          const response = await listStudentsByInstructor(instructorData?.id);
-          setStudents(response);
+          const response = await getquestions(instructorData?.id);
+          setQuestions(response);
         } else {
           console.log("Instructor data is not set");
         }
@@ -41,11 +38,11 @@ const InstructorStudentList = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const res = await deleteStudentByInstructor(id);
+    const res = await deleteQuestion(id);
 
     if (res?.message) {
-      setStudents((prevStudents) =>
-        prevStudents.filter((student) => student.id !== id)
+      setQuestions((prevQuestions) =>
+        prevQuestions.filter((questions) => questions.id !== id)
       );
     }
   };
@@ -74,36 +71,32 @@ const InstructorStudentList = () => {
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
                 <thead>
-                  {students?.length > 0 && (
+                  {questions?.length > 0 && (
                     <tr>
                       <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
-                      <th>Action</th>
+                      <th>Question</th>
+                      <th>Exam Name</th>
+                      <th>Actions</th>
                     </tr>
                   )}
                 </thead>
                 <tbody>
-                  {students?.length > 0 ? (
-                    students.map((student, index) => (
-                      <tr key={student.id}>
+                  {questions?.length > 0 ? (
+                    questions.map((question, index) => (
+                      <tr key={question.id}>
                         <td>{index + 1}</td>
-                        <td>{student?.firstname}</td>
-                        <td>{student?.lastname}</td>
-                        <td>{student?.email}</td>
-                        <td>{student?.phonenumber}</td>
+                        <td>{question?.questiontext}</td>
+                        <td>{question?.Exam?.name}</td>
                         <td>
                           <Link
-                            to={`/instructor/student/edit/${student.id}`}
+                            to={`/instructor/question/edit/${question.id}`}
                             style={{ textDecoration: "none", color: "#fff" }}
                           >
                             <Button variant={"success"}>Edit</Button>
                           </Link>
                           <Button
                             variant={"danger"}
-                            onClick={(e) => handleDelete(student.id)}
+                            onClick={(e) => handleDelete(question.id)}
                           >
                             Delete
                           </Button>
@@ -130,4 +123,4 @@ const InstructorStudentList = () => {
   );
 };
 
-export default InstructorStudentList;
+export default QuestionList;

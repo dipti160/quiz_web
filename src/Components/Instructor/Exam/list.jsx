@@ -11,42 +11,45 @@ import {
 import { Link } from "react-router-dom";
 
 import Aux from "../../../hoc/_Aux";
-import {
-  deleteStudentByInstructor,
-  listStudentsByInstructor,
-} from "../../../api";
+import { deleteExam, getExams } from "../../../api";
 
-const InstructorStudentList = () => {
-  const [students, setStudents] = useState([]);
+const ExamList = () => {
+  const [exams, setExam] = useState([]);
 
   useEffect(() => {
     const instructorData = JSON.parse(localStorage.getItem("user"));
 
-    const fetchStudents = async () => {
+    const fetchExams = async () => {
       try {
         if (instructorData?.id) {
-          const response = await listStudentsByInstructor(instructorData?.id);
-          setStudents(response);
+          const response = await getExams(instructorData?.id);
+          setExam(response);
         } else {
-          console.log("Instructor data is not set");
+          console.log("exams data is not set");
         }
       } catch (error) {
         console.log("Error fetching department list:", error);
       }
     };
 
-    fetchStudents();
+    fetchExams();
 
     return () => {};
   }, []);
 
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${month}-${day}-${year} `;
+  };
+
   const handleDelete = async (id) => {
-    const res = await deleteStudentByInstructor(id);
+    const res = await deleteExam(id);
 
     if (res?.message) {
-      setStudents((prevStudents) =>
-        prevStudents.filter((student) => student.id !== id)
-      );
+      setExam((prevExams) => prevExams.filter((exam) => exam.id !== id));
     }
   };
 
@@ -74,36 +77,42 @@ const InstructorStudentList = () => {
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
                 <thead>
-                  {students?.length > 0 && (
+                  {exams?.length > 0 && (
                     <tr>
                       <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
-                      <th>Action</th>
+                      <th>Exam Name</th>
+                      <th>Exam Duration</th>
+                      <th>Start Date</th>
+                      <th>Total Marks</th>
+                      <th>Exam Status</th>
+                      <th>Actions</th>
                     </tr>
                   )}
                 </thead>
                 <tbody>
-                  {students?.length > 0 ? (
-                    students.map((student, index) => (
-                      <tr key={student.id}>
+                  {exams?.length > 0 ? (
+                    exams.map((exam, index) => (
+                      <tr key={exam.id}>
                         <td>{index + 1}</td>
-                        <td>{student?.firstname}</td>
-                        <td>{student?.lastname}</td>
-                        <td>{student?.email}</td>
-                        <td>{student?.phonenumber}</td>
+                        <td>{exam?.name}</td>
+                        <td>{exam?.duration}</td>
+                        <td>
+                          {exam?.startdate
+                            ? formatDate(new Date(exam.startdate))
+                            : ""}
+                        </td>
+                        <td>{exam?.totalmarks}</td>
+                        <td>{exam?.examstatus}</td>
                         <td>
                           <Link
-                            to={`/instructor/student/edit/${student.id}`}
+                            to={`/instructor/exam/edit/${exam.id}`}
                             style={{ textDecoration: "none", color: "#fff" }}
                           >
                             <Button variant={"success"}>Edit</Button>
                           </Link>
                           <Button
                             variant={"danger"}
-                            onClick={(e) => handleDelete(student.id)}
+                            onClick={(e) => handleDelete(exam.id)}
                           >
                             Delete
                           </Button>
@@ -130,4 +139,4 @@ const InstructorStudentList = () => {
   );
 };
 
-export default InstructorStudentList;
+export default ExamList;

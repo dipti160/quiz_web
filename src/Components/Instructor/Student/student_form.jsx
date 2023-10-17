@@ -4,18 +4,20 @@ import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import Aux from "../../../hoc/_Aux";
 import {
   createStudent,
+  createStudentByInstructor,
   getAllDepartment,
   getStudentById,
+  getStudentByIdByInstructor,
   listCourses,
   updateStudent,
+  updateStudentByInstructor,
 } from "../../../api";
 
-const StudentForm = (props) => {
+const InstructorStudentForm = (props) => {
   const [id, setId] = useState(0);
-  const [departments, setDepartments] = useState([]);
-  const [courses, setCourses] = useState([]);
   const [departmentId, setDepartmentId] = useState("");
   const [courseId, setCourseId] = useState("");
+  const [instructorId, setInstructorId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,24 +26,29 @@ const StudentForm = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const instructorData = JSON.parse(localStorage.getItem("user"));
+
+      if (
+        instructorData?.id &&
+        instructorData?.usercourse[0]?.course_id &&
+        instructorData?.UserDepartment[0]?.department_id
+      ) {
+        setCourseId(instructorData?.usercourse[0]?.course_id);
+        setDepartmentId(instructorData?.UserDepartment[0]?.department_id);
+        setInstructorId(instructorData.id);
+      }
+
       try {
-        const response = await getAllDepartment();
-        setDepartments(response);
-
-        const res = await listCourses();
-        setCourses(res);
-
         if (props?.match?.params?.id) {
-          const instrcutorData = await getStudentById(props.match.params.id);
-          setFirstName(instrcutorData.firstname);
-          setLastName(instrcutorData.lastname ? instrcutorData.lastname : "");
-          setPhoneNumber(
-            instrcutorData.phonenumber ? instrcutorData.phonenumber : ""
+          const studentData = await getStudentByIdByInstructor(
+            props.match.params.id
           );
-
-          setEmail(instrcutorData.email);
-          setCourseId(instrcutorData?.UserCourses[0]?.course_id);
-          setDepartmentId(instrcutorData?.UserDepartments[0]?.department_id);
+          setFirstName(studentData.firstname);
+          setLastName(studentData.lastname ? studentData.lastname : "");
+          setPhoneNumber(
+            studentData.phonenumber ? studentData.phonenumber : ""
+          );
+          setEmail(studentData.email);
           setId(props?.match?.params?.id);
         }
 
@@ -60,10 +67,6 @@ const StudentForm = (props) => {
     return <div>Loading...</div>;
   }
 
-  const filteredCourses = courses.filter(
-    (course) => course.department_id == departmentId
-  );
-
   const handleSubmit = async () => {
     try {
       if (id) {
@@ -76,14 +79,15 @@ const StudentForm = (props) => {
           const data = {
             firstname: firstName,
             lastname: lastName ? lastName : null,
-            phone_number: phoneNumber ? phoneNumber : null,
+            phonenumber: phoneNumber ? phoneNumber : null,
             email: email,
             course_id: courseId,
             department_id: departmentId,
+            instructor_id: instructorId,
           };
-          const res = await updateStudent(id, data);
+          const res = await updateStudentByInstructor(id, data);
           if (Object.values(res)?.length) {
-            props.history.push("/student/list");
+            props.history.push("/instructor/student/list");
           }
         }
       } else {
@@ -96,15 +100,16 @@ const StudentForm = (props) => {
           const data = {
             firstname: firstName,
             lastname: lastName ? lastName : null,
-            phone_number: phoneNumber ? phoneNumber : null,
+            phonenumber: phoneNumber ? phoneNumber : null,
             email: email,
             course_id: courseId,
             department_id: departmentId,
+            instructor_id: instructorId,
           };
 
-          const res = await createStudent(data);
+          const res = await createStudentByInstructor(data);
           if (Object.values(res)?.length) {
-            props.history.push("/student/list");
+            props.history.push("/instructor/student/list");
           }
         }
       }
@@ -144,24 +149,6 @@ const StudentForm = (props) => {
                       />
                     </Form.Group>
 
-                    <Form.Group controlId="exampleForm.ControlSelect1">
-                      <Form.Label>Department</Form.Label>
-                      <Form.Control
-                        as="select"
-                        onClick={(e) => setDepartmentId(e.target.value)}
-                        defaultValue={props.match.params.id ? departmentId : ""}
-                      >
-                        <option value="">Select Department</option>
-                        {departments.map((department) => (
-                          <option
-                            key={department.id}
-                            value={String(department.id)}
-                          >
-                            {department.name}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
                     <Button variant="primary" onClick={handleSubmit}>
                       Submit
                     </Button>
@@ -187,21 +174,6 @@ const StudentForm = (props) => {
                       onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                   </Form.Group>
-                  <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Course</Form.Label>
-                    <Form.Control
-                      as="select"
-                      onClick={(e) => setCourseId(e.target.value)}
-                      defaultValue={props.match.params.id ? courseId : ""}
-                    >
-                      <option value="">Select Course</option>
-                      {filteredCourses.map((course) => (
-                        <option key={course.id} value={String(course.id)}>
-                          {course.name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
                 </Col>
               </Row>
             </Card.Body>
@@ -212,4 +184,4 @@ const StudentForm = (props) => {
   );
 };
 
-export default StudentForm;
+export default InstructorStudentForm;

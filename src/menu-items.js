@@ -76,22 +76,44 @@ const menuItems = {
         {
           id: "student",
           title: "Students",
-          type: "collapse",
+          type: "item",
           icon: "feather icon-box",
-          children: [
-            {
-              id: "student_list",
-              title: "Students",
-              type: "item",
-              url: "/admin/student/list",
-            },
-            {
-              id: "student_form",
-              title: "Add Student",
-              type: "item",
-              url: "/admin/student/form",
-            },
-          ],
+          url: "/admin/student/list",
+          //   children: [
+          //     {
+          //       id: "student_list",
+          //       title: "Students",
+          //       type: "item",
+          //       url: "/admin/student/list",
+          //     },
+          //     {
+          //       id: "student_form",
+          //       title: "Add Student",
+          //       type: "item",
+          //       url: "/admin/student/form",
+          //     },
+          //   ],
+          // },
+          // {
+          //   id: "student",
+          //   title: "Students",
+          //   type: "collapse",
+          //   icon: "feather icon-box",
+          //   children: [
+          //     {
+          //       id: "student_list",
+          //       title: "Students",
+          //       type: "item",
+          //       url: "/admin/student/list",
+          //     },
+          //     {
+          //       id: "student_form",
+          //       title: "Add Student",
+          //       type: "item",
+          //       url: "/admin/student/form",
+          //     },
+          //   ],
+          // },
         },
       ],
     },

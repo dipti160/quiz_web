@@ -1,5 +1,9 @@
 import React from "react";
 import $ from "jquery";
+import ExamForm from "./Components/Instructor/Exam/form";
+import ExamList from "./Components/Instructor/Exam/list";
+import QuestionList from "./Components/Instructor/Question/list";
+import QuestionForm from "./Components/Instructor/Question/form";
 
 window.jQuery = $;
 window.$ = $;
@@ -38,6 +42,8 @@ const GoogleMap = React.lazy(() => import("./Demo/Maps/GoogleMap/index"));
 const OtherSamplePage = React.lazy(() => import("./Demo/Other/SamplePage"));
 const OtherDocs = React.lazy(() => import("./Demo/Other/Docs"));
 
+// //////////////////////////////////////////////// admin
+
 const CourseList = React.lazy(() =>
   import("./Components/Admin/Courses/course_list")
 );
@@ -61,6 +67,15 @@ const StudentList = React.lazy(() =>
 );
 const StudentForm = React.lazy(() =>
   import("./Components/Admin/Students/student_form")
+);
+
+// //////////////////////////////////////////////// Instructor
+
+const InstructorStudentList = React.lazy(() =>
+  import("./Components/Instructor/Student/student_list")
+);
+const InstructorStudentForm = React.lazy(() =>
+  import("./Components/Instructor/Student/student_form")
 );
 
 const routes = [
@@ -130,18 +145,18 @@ const routes = [
     name: "student",
     component: StudentList,
   },
-  {
-    path: "/admin/student/form",
-    exact: true,
-    name: "student",
-    component: StudentForm,
-  },
-  {
-    path: "/admin/student/edit/:id",
-    exact: true,
-    name: "student",
-    component: StudentForm,
-  },
+  // {
+  //   path: "/admin/student/form",
+  //   exact: true,
+  //   name: "student",
+  //   component: StudentForm,
+  // },
+  // {
+  //   path: "/admin/student/edit/:id",
+  //   exact: true,
+  //   name: "student",
+  //   component: StudentForm,
+  // },
   {
     path: "/instructor/dashboard",
     exact: true,
@@ -149,10 +164,58 @@ const routes = [
     component: DashboardDefault,
   },
   {
-    path: "/student/dashboard",
+    path: "/instructor/student/list",
     exact: true,
     name: "dashboard",
-    component: DashboardDefault,
+    component: InstructorStudentList,
+  },
+  {
+    path: "/instructor/student/form",
+    exact: true,
+    name: "dashboard",
+    component: InstructorStudentForm,
+  },
+  {
+    path: "/instructor/student/edit/:id",
+    exact: true,
+    name: "dashboard",
+    component: InstructorStudentForm,
+  },
+  {
+    path: "/instructor/exam/list",
+    exact: true,
+    name: "dashboard",
+    component: ExamList,
+  },
+  {
+    path: "/instructor/exam/form",
+    exact: true,
+    name: "dashboard",
+    component: ExamForm,
+  },
+  {
+    path: "/instructor/exam/edit/:id",
+    exact: true,
+    name: "dashboard",
+    component: ExamForm,
+  },
+  {
+    path: "/instructor/question/list",
+    exact: true,
+    name: "dashboard",
+    component: QuestionList,
+  },
+  {
+    path: "/instructor/question/form",
+    exact: true,
+    name: "dashboard",
+    component: QuestionForm,
+  },
+  {
+    path: "/instructor/question/edit/:id",
+    exact: true,
+    name: "dashboard",
+    component: QuestionForm,
   },
   // {
   //   path: "/basic/button",

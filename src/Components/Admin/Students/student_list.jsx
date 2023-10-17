@@ -72,7 +72,7 @@ const StudentList = () => {
                       <th>Email</th>
                       <th>Course</th>
                       <th>Department</th>
-                      <th>Action</th>
+                      {/* <th>Action</th> */}
                     </tr>
                   )}
                 </thead>
@@ -85,7 +85,7 @@ const StudentList = () => {
                         <td>{student.email}</td>
                         <td>{student?.UserCourses[0]?.Course?.name}</td>
                         <td>{student?.UserDepartments[0]?.Department?.name}</td>
-                        <td>
+                        {/* <td>
                           <Link
                             to={`/admin/student/edit/${student.id}`}
                             style={{ textDecoration: "none", color: "#fff" }}
@@ -98,7 +98,7 @@ const StudentList = () => {
                           >
                             Delete
                           </Button>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   ) : (

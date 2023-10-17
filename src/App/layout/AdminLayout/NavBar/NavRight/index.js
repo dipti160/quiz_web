@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom"; // Import Redirect from react-router-dom
+
 import { Dropdown } from "react-bootstrap";
 
 import ChatList from "./ChatList";
@@ -12,9 +14,18 @@ import Avatar3 from "../../../../../assets/images/user/avatar-3.jpg";
 class NavRight extends Component {
   state = {
     listOpen: false,
+    isLoggedIn: true,
+  };
+
+  handleLogout = () => {
+    localStorage.clear();
+    this.setState({ isLoggedIn: false }); // Set isLoggedIn to false to trigger redirection
   };
 
   render() {
+    if (!this.state.isLoggedIn) {
+      return <Redirect to="/login" />;
+    }
     return (
       <Aux>
         <ul className="navbar-nav ml-auto">
@@ -95,6 +106,7 @@ class NavRight extends Component {
                     href={DEMO.BLANK_LINK}
                     className="dud-logout"
                     title="Logout"
+                    onClick={this.handleLogout}
                   >
                     <i className="feather icon-log-out" />
                   </a>

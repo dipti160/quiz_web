@@ -160,9 +160,15 @@ const menuItems = {
           children: [
             {
               id: "exam_list",
-              title: "Exams",
+              title: "Upcoming Exams",
               type: "item",
               url: "/instructor/exam/list",
+            },
+            {
+              id: "exam_list",
+              title: "Past Exams",
+              type: "item",
+              url: "/instructor/past-exam/list",
             },
             {
               id: "exam_form",
@@ -206,8 +212,28 @@ const menuItems = {
           id: "dashboard",
           title: "Dashboard",
           type: "item",
-          url: "/admin/dashboard",
+          url: "/student/dashboard",
           icon: "feather icon-home",
+        },
+        {
+          id: "exam",
+          title: "Exams",
+          type: "collapse",
+          icon: "feather icon-file-text",
+          children: [
+            {
+              id: "exam_upcoming_list",
+              title: "Upcoming Exams",
+              type: "item",
+              url: "/student/exam/list",
+            },
+            {
+              id: "exam_past-exam_list",
+              title: "Past Exams",
+              type: "item",
+              url: "/student/past-exam/list",
+            },
+          ],
         },
       ],
     },

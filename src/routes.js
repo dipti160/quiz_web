@@ -1,9 +1,8 @@
 import React from "react";
 import $ from "jquery";
-import ExamForm from "./Components/Instructor/Exam/form";
-import ExamList from "./Components/Instructor/Exam/list";
-import QuestionList from "./Components/Instructor/Question/list";
-import QuestionForm from "./Components/Instructor/Question/form";
+import ExamScreen from "./Components/Student/Exam/exam_screen";
+import PastExamInstructor from "./Components/Instructor/Exam/past_exam";
+import StudentResult from "./Components/Instructor/Exam/student_result";
 
 window.jQuery = $;
 window.$ = $;
@@ -76,6 +75,24 @@ const InstructorStudentList = React.lazy(() =>
 );
 const InstructorStudentForm = React.lazy(() =>
   import("./Components/Instructor/Student/student_form")
+);
+
+const ExamForm = React.lazy(() => import("./Components/Instructor/Exam/form"));
+const ExamList = React.lazy(() => import("./Components/Instructor/Exam/list"));
+const QuestionList = React.lazy(() =>
+  import("./Components/Instructor/Question/list")
+);
+const QuestionForm = React.lazy(() =>
+  import("./Components/Instructor/Question/form")
+);
+
+// //////////////////////////////////////////////// Student
+
+const UpcomingExamList = React.lazy(() =>
+  import("./Components/Student/Exam/upcoming_exam_list")
+);
+const PastExamList = React.lazy(() =>
+  import("./Components/Student/Exam/past_exam_list")
 );
 
 const routes = [
@@ -166,57 +183,94 @@ const routes = [
   {
     path: "/instructor/student/list",
     exact: true,
-    name: "dashboard",
+    name: "student",
     component: InstructorStudentList,
   },
   {
     path: "/instructor/student/form",
     exact: true,
-    name: "dashboard",
+    name: "student",
     component: InstructorStudentForm,
   },
   {
     path: "/instructor/student/edit/:id",
     exact: true,
-    name: "dashboard",
+    name: "student",
     component: InstructorStudentForm,
   },
   {
     path: "/instructor/exam/list",
     exact: true,
-    name: "dashboard",
+    name: "exam",
     component: ExamList,
+  },
+  {
+    path: "/instructor/past-exam/list",
+    exact: true,
+    name: "exam",
+    component: PastExamInstructor,
+  },
+  {
+    path: "/instructor/result/list/:id",
+    exact: true,
+    name: "exam",
+    component: StudentResult,
   },
   {
     path: "/instructor/exam/form",
     exact: true,
-    name: "dashboard",
+    name: "exam",
     component: ExamForm,
   },
   {
     path: "/instructor/exam/edit/:id",
     exact: true,
-    name: "dashboard",
+    name: "exam",
     component: ExamForm,
   },
   {
     path: "/instructor/question/list",
     exact: true,
-    name: "dashboard",
+    name: "question",
     component: QuestionList,
   },
   {
     path: "/instructor/question/form",
     exact: true,
-    name: "dashboard",
+    name: "question",
     component: QuestionForm,
   },
   {
     path: "/instructor/question/edit/:id",
     exact: true,
-    name: "dashboard",
+    name: "dashboquestionard",
     component: QuestionForm,
   },
+  {
+    path: "/student/dashboard",
+    exact: true,
+    name: "dashboard",
+    component: DashboardDefault,
+  },
+  {
+    path: "/student/exam/list",
+    exact: true,
+    name: "exam",
+    component: UpcomingExamList,
+  },
+  {
+    path: "/student/past-exam/list",
+    exact: true,
+    name: "exam",
+    component: PastExamList,
+  },
+  {
+    path: "/student/exam-screen/:id",
+    exact: true,
+    name: "exam",
+    component: ExamScreen,
+  },
+
   // {
   //   path: "/basic/button",
   //   exact: true,

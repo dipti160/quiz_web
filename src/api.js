@@ -289,6 +289,15 @@ export const getExams = async (id) => {
   }
 };
 
+export const getExamsPastInstructor = async (id) => {
+  try {
+    const response = await api.get(`/instructor/past-exams/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getExamById = async (id) => {
   try {
     const response = await api.get(`/instructor/get-exams/${id}`);
@@ -360,5 +369,138 @@ export const deleteQuestion = async (id) => {
     return response.data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+// result
+
+export const evaluateExamResult = async (id) => {
+  try {
+    const response = await api.post(`/instructor/evaluateResult/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const viewExamResults = async (id) => {
+  try {
+    const response = await api.get(`/instructor/result/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Student route
+
+// exam
+export const getUpcomingExams = async (id) => {
+  try {
+    const response = await api.get(`/student/upcoming-exams/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPastExams = async (id) => {
+  try {
+    const response = await api.get(`/student/past-exams/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getexamQuestions = async (id) => {
+  try {
+    const response = await api.get(`/student/${id}/questions`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createStudentResponse = async (data) => {
+  try {
+    const response = await api.post(`/student/exam/response`, data);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createstudentDisqualified = async (data) => {
+  try {
+    const response = await api.post("/student/exam/disqualified", data);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+////////////////////////////////////////////// dashboard
+
+export const coursesCount = async () => {
+  try {
+    const response = await api.get("/admin/courses/count");
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const departmentsCount = async () => {
+  try {
+    const response = await api.get("/admin/departments/count");
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const examsCount = async () => {
+  try {
+    const response = await api.get("/admin/exams/count");
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const instructorCount = async () => {
+  try {
+    const response = await api.get("/admin/instructor/count");
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const studentCount = async () => {
+  try {
+    const response = await api.get("/admin/student/count");
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const examsUpcomingCount = async () => {
+  try {
+    const response = await api.get("/admin/exams/upcoming/count");
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const examsForDashboard = async () => {
+  try {
+    const response = await api.get("/admin/exams/upcoming/all");
+    return response.data;
+  } catch (err) {
+    console.log(err);
   }
 };

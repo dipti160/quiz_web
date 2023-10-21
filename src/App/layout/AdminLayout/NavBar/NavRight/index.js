@@ -26,6 +26,7 @@ class NavRight extends Component {
     if (!this.state.isLoggedIn) {
       return <Redirect to="/login" />;
     }
+    const userData = JSON.parse(localStorage.getItem("user"));
     return (
       <Aux>
         <ul className="navbar-nav ml-auto">
@@ -101,7 +102,7 @@ class NavRight extends Component {
                     className="img-radius"
                     alt="User Profile"
                   />
-                  <span>John Doe</span>
+                  <span>{userData?.firstname}</span>
                   <a
                     href={DEMO.BLANK_LINK}
                     className="dud-logout"
@@ -112,14 +113,14 @@ class NavRight extends Component {
                   </a>
                 </div>
                 <ul className="pro-body">
-                  <li>
+                  {/* <li>
                     <a href={DEMO.BLANK_LINK} className="dropdown-item">
-                      <i className="feather icon-settings" /> Settings
+                      <i className="feather icon-settings" /> {userData?.email}
                     </a>
-                  </li>
+                  </li> */}
                   <li>
                     <a href={DEMO.BLANK_LINK} className="dropdown-item">
-                      <i className="feather icon-user" /> Profile
+                      <i className="feather icon-user" /> {userData?.email}
                     </a>
                   </li>
                   {/* <li>

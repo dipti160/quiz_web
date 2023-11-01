@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 
+import { Alert } from "react-bootstrap";
+
 import Aux from "../../../hoc/_Aux";
 import {
   createDepartment,
@@ -11,6 +13,7 @@ import {
 const DepartmentForm = (props) => {
   const [name, setName] = useState("");
   const [id, setId] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fecthDepartmentById = async (id) => {
@@ -51,9 +54,15 @@ const DepartmentForm = (props) => {
           };
 
           const res = await createDepartment(data);
+
           if (Object.values(res)?.length) {
             props.history.push("/admin/department/list");
+          } else {
+            console.log("Authentication failed");
+            setError("Department is already exist");
           }
+        } else {
+          setError("Please enter department name");
         }
       }
     } catch (err) {
@@ -62,6 +71,7 @@ const DepartmentForm = (props) => {
   };
   return (
     <Aux>
+      {error ? <Alert variant="danger">{error}</Alert> : ""}
       <Row>
         <Col>
           <Card>

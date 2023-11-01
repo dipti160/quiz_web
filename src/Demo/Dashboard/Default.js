@@ -232,7 +232,7 @@ const Dashboard = () => {
           <Col md={6} xl={4}>
             <Card>
               <Card.Body>
-                <h6 className="mb-4">Total Exams</h6>
+                <h6 className="mb-4">Total Quizzes</h6>
                 <div className="row d-flex align-items-center">
                   <div className="col-9">
                     <h1 className="f-w-300 d-flex align-items-center m-b-0">
@@ -260,10 +260,10 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col xl={4}>
+          {/* <Col xl={4}>
             <Card>
               <Card.Body>
-                <h6 className="mb-4">Upcoming Exams</h6>
+                <h6 className="mb-4">Upcoming Quizzes</h6>
                 <div className="row d-flex align-items-center">
                   <div className="col-9">
                     <h1 className="f-w-300 d-flex align-items-center m-b-0">
@@ -274,7 +274,7 @@ const Dashboard = () => {
                 <div className="m-t-30" style={{ height: "7px" }}></div>
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
 
           {/* <Col md={6} xl={4}>
                         <Card className='card-social'>
@@ -553,7 +553,7 @@ const Dashboard = () => {
           <Col md={6} xl={4}>
             <Card>
               <Card.Body>
-                <h6 className="mb-4">Total Exams</h6>
+                <h6 className="mb-4">Total Quizzes</h6>
                 <div className="row d-flex align-items-center">
                   <div className="col-9">
                     <h1 className="f-w-300 d-flex align-items-center m-b-0">
@@ -581,10 +581,10 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col xl={4}>
+          {/* <Col xl={4}>
             <Card>
               <Card.Body>
-                <h6 className="mb-4">Upcoming Exams</h6>
+                <h6 className="mb-4">Upcoming Quizzes</h6>
                 <div className="row d-flex align-items-center">
                   <div className="col-9">
                     <h1 className="f-w-300 d-flex align-items-center m-b-0">
@@ -595,7 +595,7 @@ const Dashboard = () => {
                 <div className="m-t-30" style={{ height: "7px" }}></div>
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       )}
 
@@ -604,7 +604,7 @@ const Dashboard = () => {
           <Col md={6} xl={4}>
             <Card>
               <Card.Body>
-                <h6 className="mb-4">Total Exams</h6>
+                <h6 className="mb-4">Total Quizzes</h6>
                 <div className="row d-flex align-items-center">
                   <div className="col-9">
                     <h1 className="f-w-300 d-flex align-items-center m-b-0">
@@ -618,10 +618,10 @@ const Dashboard = () => {
             </Card>
           </Col>
 
-          <Col xl={4}>
+          {/* <Col xl={4}>
             <Card>
               <Card.Body>
-                <h6 className="mb-4">Upcoming Exams</h6>
+                <h6 className="mb-4">Upcoming Quizzes</h6>
                 <div className="row d-flex align-items-center">
                   <div className="col-9">
                     <h1 className="f-w-300 d-flex align-items-center m-b-0">
@@ -632,7 +632,7 @@ const Dashboard = () => {
                 <div className="m-t-30" style={{ height: "7px" }}></div>
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       )}
     </Aux>

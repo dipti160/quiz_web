@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
 
 import Aux from "../../../hoc/_Aux";
 import {
   createQuestion,
-  createStudentByInstructor,
   getExams,
   getQuestionById,
-  getStudentByIdByInstructor,
   updateQuestion,
-  updateStudentByInstructor,
 } from "../../../api";
 
 const QuestionForm = (props) => {
@@ -26,10 +23,11 @@ const QuestionForm = (props) => {
   const [examOptions, setExamOptions] = useState(null);
   const [instructorId, setInstructorId] = useState("");
   const [courseId, setCourseId] = useState("");
+  const [error, setError] = useState(null);
 
   const [questionTypeOptions, setQuestionTypeOptions] = useState([
-    { id: 1, label: "Multiple Choice" },
-    { id: 2, label: "Single Choice" },
+    { id: 1, label: "Multiple Selection" },
+    { id: 2, label: "Single Selection" },
   ]);
 
   const [loading, setLoading] = useState(true);
@@ -140,7 +138,12 @@ const QuestionForm = (props) => {
           };
           const res = await createQuestion(data);
           if (Object.values(res)?.length) {
-            props.history.push("/instructor/question/list");
+            if (res?.total) {
+              setError("Question marks exceed the total marks limit of exam.");
+            }
+            if (res?.data) {
+              props.history.push("/instructor/question/list");
+            }
           }
         }
       }
@@ -151,6 +154,7 @@ const QuestionForm = (props) => {
 
   return (
     <Aux>
+      {error ? <Alert variant="danger">{error}</Alert> : ""}
       <Row>
         <Col>
           <Card>
@@ -170,13 +174,13 @@ const QuestionForm = (props) => {
                 <Col md={4}>
                   <Form>
                     <Form.Group controlId="exampleForm.ControlSelect1">
-                      <Form.Label>Exam</Form.Label>
+                      <Form.Label>Quiz</Form.Label>
                       <Form.Control
                         as="select"
                         value={examId}
                         onChange={(e) => setExamId(e.target.value)}
                       >
-                        <option value="">Select Exam</option>
+                        <option value="">Select Quiz</option>
                         {examOptions?.length &&
                           examOptions.map((exam) => (
                             <option key={exam.id} value={exam.id}>

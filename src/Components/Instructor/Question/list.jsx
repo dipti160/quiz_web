@@ -5,6 +5,7 @@ import {
   Card,
   Table,
   Button,
+  Pagination,
   InputGroup,
   FormControl,
 } from "react-bootstrap";
@@ -53,7 +54,8 @@ const QuestionList = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Row>
+              <Card.Title as="h5">Questions</Card.Title>
+              {/* <Row>
                 <Col md={6}></Col>
                 <Col md={6}>
                   <InputGroup>
@@ -66,7 +68,7 @@ const QuestionList = () => {
                     </InputGroup.Append>
                   </InputGroup>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Header>
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
@@ -75,7 +77,7 @@ const QuestionList = () => {
                     <tr>
                       <th>#</th>
                       <th>Question</th>
-                      <th>Exam Name</th>
+                      <th>Quiz Name</th>
                       <th>Actions</th>
                     </tr>
                   )}
@@ -115,6 +117,10 @@ const QuestionList = () => {
                   )}
                 </tbody>
               </Table>
+              <Pagination size="lg">
+                <Pagination.Prev disabled={true} />
+                <Pagination.Next disabled={true} />
+              </Pagination>
             </Card.Body>
           </Card>
         </Col>

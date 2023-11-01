@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Table,
+  Button,
+  Pagination,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
+
 import {
   getUpcomingExams,
   deleteExam,
@@ -16,26 +26,26 @@ const PastExamInstructor = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const studentData = JSON.parse(localStorage.getItem("user"));
-        if (studentData?.id) {
-          const response = await getExamsPastInstructor(studentData?.id);
-          setExams(response);
-        } else {
-          console.log("User data is not set");
-        }
-      } catch (error) {
-        console.log("Error fetching exams:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchExams();
 
     return () => {};
   }, []);
+
+  const fetchExams = async () => {
+    try {
+      const studentData = JSON.parse(localStorage.getItem("user"));
+      if (studentData?.id) {
+        const response = await getExamsPastInstructor(studentData?.id);
+        setExams(response);
+      } else {
+        console.log("User data is not set");
+      }
+    } catch (error) {
+      console.log("Error fetching exams:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -48,71 +58,100 @@ const PastExamInstructor = () => {
   const handleEvaluate = async (id) => {
     try {
       const res = await evaluateExamResult(id);
-      console.log(res);
+      if (res) {
+        fetchExams();
+      }
+      // Call fetchExams() again after evaluating the exam
+      fetchExams();
     } catch (error) {
-      console.log("Error deleting exam:", error);
+      console.log("Error evaluating exam:", error);
     }
   };
 
   return (
     <Aux>
-      <h5>Past Exams</h5>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <Table responsive bordered>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Exam Name</th>
-              <th>Exam Duration</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Total Marks</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {exams.length > 0 ? (
-              exams.map((exam, index) => (
-                <tr key={exam.id}>
-                  <td>{index + 1}</td>
-                  <td>{exam.name}</td>
-                  <td>{exam.duration}</td>
-                  <td>
-                    {exam.startdate ? formatDate(new Date(exam.startdate)) : ""}
-                  </td>
-                  <td>
-                    {exam.enddate ? formatDate(new Date(exam.enddate)) : ""}
-                  </td>
-                  <td>{exam.totalmarks}</td>
-
-                  <td>
-                    <Link
-                      to={`/instructor/result/list/${exam.id}`}
-                      style={{ textDecoration: "none", color: "#fff" }}
-                    >
-                      <Button variant="success">View Result</Button>
-                    </Link>
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleEvaluate(exam.id)}
-                    >
-                      Evaluate
-                    </Button>
-                  </td>
-                </tr>
-              ))
+      <Row>
+        <Col>
+          <Card>
+            <Card.Header>
+              <Card.Title as="h5">Past Quizzes</Card.Title>
+            </Card.Header>
+            {console.log(exams)}
+            {isLoading ? (
+              <Loader />
             ) : (
-              <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
-                  No upcoming exams found.
-                </td>
-              </tr>
+              <Card.Body>
+                <Table responsive bordered>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Quiz Name</th>
+                      <th>Quiz Duration</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Total Marks</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {exams.length > 0 ? (
+                      exams.map((exam, index) => (
+                        <tr key={exam.id}>
+                          <td>{index + 1}</td>
+                          <td>{exam.name}</td>
+                          <td>{exam.duration}</td>
+                          <td>
+                            {exam.startdate
+                              ? formatDate(new Date(exam.startdate))
+                              : ""}
+                          </td>
+                          <td>
+                            {exam.enddate
+                              ? formatDate(new Date(exam.enddate))
+                              : ""}
+                          </td>
+                          <td>{exam.totalmarks}</td>
+
+                          <td>
+                            {exam?.hasResult ? (
+                              <Link
+                                to={`/instructor/result/list/${exam.id}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#fff",
+                                }}
+                              >
+                                <Button variant="success">View Result</Button>
+                              </Link>
+                            ) : (
+                              <Button
+                                variant="secondary"
+                                onClick={() => handleEvaluate(exam.id)}
+                              >
+                                Evaluate
+                              </Button>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7" style={{ textAlign: "center" }}>
+                          No past exams found.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+                <Pagination size="lg">
+                  <Pagination.Prev disabled={true} />
+                  <Pagination.Next disabled={true} />
+                </Pagination>
+              </Card.Body>
             )}
-          </tbody>
-        </Table>
-      )}
+          </Card>
+        </Col>
+      </Row>
     </Aux>
   );
 };

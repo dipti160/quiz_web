@@ -5,6 +5,7 @@ import {
   Card,
   Table,
   Button,
+  Pagination,
   InputGroup,
   FormControl,
 } from "react-bootstrap";
@@ -59,7 +60,8 @@ const ExamList = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Row>
+              <Card.Title as="h5">Upcoming Quizzes</Card.Title>
+              {/* <Row>
                 <Col md={6}></Col>
                 <Col md={6}>
                   <InputGroup>
@@ -72,7 +74,7 @@ const ExamList = () => {
                     </InputGroup.Append>
                   </InputGroup>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Header>
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
@@ -80,11 +82,11 @@ const ExamList = () => {
                   {exams?.length > 0 && (
                     <tr>
                       <th>#</th>
-                      <th>Exam Name</th>
-                      <th>Exam Duration</th>
+                      <th>Quiz Name</th>
+                      <th>Quiz Duration</th>
                       <th>Start Date</th>
                       <th>Total Marks</th>
-                      <th>Exam Status</th>
+                      {/* <th>Quiz Status</th> */}
                       <th>Actions</th>
                     </tr>
                   )}
@@ -102,7 +104,7 @@ const ExamList = () => {
                             : ""}
                         </td>
                         <td>{exam?.totalmarks}</td>
-                        <td>{exam?.examstatus}</td>
+                        {/* <td>{exam?.examstatus}</td> */}
                         <td>
                           <Link
                             to={`/instructor/exam/edit/${exam.id}`}
@@ -131,6 +133,10 @@ const ExamList = () => {
                   )}
                 </tbody>
               </Table>
+              <Pagination size="lg">
+                <Pagination.Prev disabled={true} />
+                <Pagination.Next disabled={true} />
+              </Pagination>
             </Card.Body>
           </Card>
         </Col>

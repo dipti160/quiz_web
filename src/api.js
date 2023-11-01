@@ -92,9 +92,18 @@ export const createCourse = async (data) => {
   }
 };
 
-export const listCourses = async () => {
+export const listCourses = async (page, limit) => {
   try {
-    const response = await api.get("/courses");
+    const response = await api.get(`/courses?page=${page}&limit=${limit}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllCourse = async () => {
+  try {
+    const response = await api.get(`/courses/all`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -138,9 +147,9 @@ export const createInstructor = async (data) => {
   }
 };
 
-export const listInstructors = async () => {
+export const listInstructors = async (page, limit) => {
   try {
-    const response = await api.get("/instructors");
+    const response = await api.get(`/instructors?page=${page}&limit=${limit}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -185,9 +194,9 @@ export const createStudent = async (data) => {
   }
 };
 
-export const listStudents = async () => {
+export const listStudents = async (page, limit) => {
   try {
-    const response = await api.get("/students");
+    const response = await api.get(`/students?page=${page}&limit=${limit}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -234,9 +243,11 @@ export const createStudentByInstructor = async (data) => {
   }
 };
 
-export const listStudentsByInstructor = async (id) => {
+export const listStudentsByInstructor = async (id, page, limit) => {
   try {
-    const response = await api.get(`/instructor/students/${id}`);
+    const response = await api.get(
+      `/instructor/students/${id}?page=${page}&limit=${limit}`
+    );
     return response.data;
   } catch (error) {
     console.log(error);

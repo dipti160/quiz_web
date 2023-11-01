@@ -35,8 +35,8 @@ const DepartmentList = () => {
       } else {
         response = await listDepartments(page, limit);
       }
-      setDepartments(response.data);
-      setTotalPages(response.totalPages);
+      setDepartments(response?.data);
+      setTotalPages(response?.totalPages);
     } catch (error) {
       console.log("Error fetching department list:", error);
     }
@@ -69,7 +69,8 @@ const DepartmentList = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Row>
+              <Card.Title as="h5">Departments</Card.Title>
+              {/* <Row>
                 <Col md={6}>
                   <Button variant="secondary" onClick={resetData}>
                     Reset
@@ -91,7 +92,7 @@ const DepartmentList = () => {
                     </InputGroup.Append>
                   </InputGroup>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Header>
             <Card.Body>
               <Table

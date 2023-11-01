@@ -7,6 +7,7 @@ import {
   Button,
   InputGroup,
   FormControl,
+  Pagination,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -15,21 +16,30 @@ import { deleteInstructor, listInstructors } from "../../../api";
 
 const InstructorList = () => {
   const [instrcutors, setInstructors] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
 
   useEffect(() => {
-    const fetchInstructors = async () => {
-      try {
-        const response = await listInstructors();
-        setInstructors(response);
-      } catch (error) {
-        console.log("Error fetching department list:", error);
-      }
-    };
-
     fetchInstructors();
 
     return () => {};
-  }, []);
+  }, [page, limit]);
+
+  const fetchInstructors = async () => {
+    try {
+      const response = await listInstructors(page, limit);
+      setInstructors(response?.data);
+      setTotalPages(response?.totalPages);
+    } catch (error) {
+      console.log("Error fetching department list:", error);
+    }
+  };
+
+  const formattedNumber = (id) => {
+    const newCourseId = String(id).padStart(4, "0");
+    return newCourseId;
+  };
 
   const handleDelete = async (id) => {
     const res = await deleteInstructor(id);
@@ -46,7 +56,8 @@ const InstructorList = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Row>
+              <Card.Title as="h5">Instrcutors</Card.Title>
+              {/* <Row>
                 <Col md={6}></Col>
                 <Col md={6}>
                   <InputGroup>
@@ -60,7 +71,7 @@ const InstructorList = () => {
                     </InputGroup.Append>
                   </InputGroup>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Header>
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
@@ -83,7 +94,14 @@ const InstructorList = () => {
                         <td>{index + 1}</td>
                         <td>{instrcutor.firstname}</td>
                         <td>{instrcutor.email}</td>
-                        <td>{instrcutor?.UserCourses[0]?.Course?.name}</td>
+
+                        <td>
+                          {instrcutor?.UserCourses[0]?.Course?.name +
+                            "-" +
+                            formattedNumber(
+                              instrcutor?.UserCourses[0]?.course_id
+                            )}
+                        </td>
                         <td>
                           {instrcutor?.UserDepartments[0]?.Department?.name}
                         </td>
@@ -115,6 +133,16 @@ const InstructorList = () => {
                   )}
                 </tbody>
               </Table>
+              <Pagination size="lg">
+                <Pagination.Prev
+                  onClick={() => setPage(Math.max(page - 1, 1))}
+                  disabled={page === 1}
+                />
+                <Pagination.Next
+                  onClick={() => setPage(Math.min(page + 1, totalPages))}
+                  disabled={page === totalPages}
+                />
+              </Pagination>
             </Card.Body>
           </Card>
         </Col>

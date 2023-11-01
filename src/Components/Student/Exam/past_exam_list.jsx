@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Table,
+  Pagination,
+  Button,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getUpcomingExams, deleteExam, getPastExams } from "../../../api";
+
 import Aux from "../../../hoc/_Aux";
 import Loader from "../../../App/layout/Loader";
 
@@ -50,50 +60,69 @@ const PastExamList = () => {
 
   return (
     <Aux>
-      <h5>Past Exams</h5>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <Table responsive bordered>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Exam Name</th>
-              <th>Exam Duration</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Total Marks</th>
-              <th>Result</th>
-            </tr>
-          </thead>
-          <tbody>
-            {exams.length > 0 ? (
-              exams.map((exam, index) => (
-                <tr key={exam.id}>
-                  <td>{index + 1}</td>
-                  <td>{exam.name}</td>
-                  <td>{exam.duration}</td>
-                  <td>
-                    {exam.startdate ? formatDate(new Date(exam.startdate)) : ""}
-                  </td>
-                  <td>
-                    {exam.enddate ? formatDate(new Date(exam.enddate)) : ""}
-                  </td>
-                  <td>{exam.totalmarks}</td>
+      <Row>
+        <Col>
+          <Card>
+            <Card.Header>
+              <Card.Title as="h5">Past Quizzes</Card.Title>
+            </Card.Header>
 
-                  <td>{exam.result}</td>
-                </tr>
-              ))
+            {isLoading ? (
+              <Loader />
             ) : (
-              <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
-                  No upcoming exams found.
-                </td>
-              </tr>
+              <Card.Body>
+                <Table responsive bordered>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Quiz Name</th>
+                      <th>Quiz Duration</th>
+                      {/* <th>Start Date</th>
+                      <th>End Date</th> */}
+                      <th>Total Marks</th>
+                      <th>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {exams.length > 0 ? (
+                      exams.map((exam, index) => (
+                        <tr key={exam.id}>
+                          <td>{index + 1}</td>
+                          <td>{exam.name}</td>
+                          <td>{exam.duration}</td>
+                          {/* <td>
+                            {exam.startdate
+                              ? formatDate(new Date(exam.startdate))
+                              : ""}
+                          </td>
+                          <td>
+                            {exam.enddate
+                              ? formatDate(new Date(exam.enddate))
+                              : ""}
+                          </td> */}
+                          <td>{exam.totalmarks}</td>
+
+                          <td>{exam.result}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7" style={{ textAlign: "center" }}>
+                          No past Quizzes found.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+                <Pagination size="lg">
+                  <Pagination.Prev disabled={true} />
+                  <Pagination.Next disabled={true} />
+                </Pagination>
+              </Card.Body>
             )}
-          </tbody>
-        </Table>
-      )}
+          </Card>
+        </Col>
+      </Row>
     </Aux>
   );
 };

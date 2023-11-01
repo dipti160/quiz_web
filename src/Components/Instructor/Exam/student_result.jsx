@@ -4,6 +4,7 @@ import {
   Col,
   Card,
   Table,
+  Pagination,
   Button,
   InputGroup,
   FormControl,
@@ -35,7 +36,8 @@ const StudentResult = (props) => {
         <Col>
           <Card>
             <Card.Header>
-              <Row>
+              <Card.Title as="h5">Student Result</Card.Title>
+              {/* <Row>
                 <Col md={6}></Col>
                 <Col md={6}>
                   <InputGroup>
@@ -48,7 +50,7 @@ const StudentResult = (props) => {
                     </InputGroup.Append>
                   </InputGroup>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Header>
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
@@ -84,6 +86,10 @@ const StudentResult = (props) => {
                   )}
                 </tbody>
               </Table>
+              <Pagination size="lg">
+                <Pagination.Prev disabled={true} />
+                <Pagination.Next disabled={true} />
+              </Pagination>
             </Card.Body>
           </Card>
         </Col>

@@ -154,25 +154,25 @@ const menuItems = {
         },
         {
           id: "exam",
-          title: "Exams",
+          title: "Quizzes",
           type: "collapse",
           icon: "feather icon-file-text",
           children: [
             {
               id: "exam_list",
-              title: "Upcoming Exams",
+              title: "Upcoming Quizzes",
               type: "item",
               url: "/instructor/exam/list",
             },
             {
               id: "exam_list",
-              title: "Past Exams",
+              title: "Past Quizzes",
               type: "item",
               url: "/instructor/past-exam/list",
             },
             {
               id: "exam_form",
-              title: "Create Exam ",
+              title: "Create Quiz ",
               type: "item",
               url: "/instructor/exam/form",
             },
@@ -217,19 +217,19 @@ const menuItems = {
         },
         {
           id: "exam",
-          title: "Exams",
+          title: "Quizzes",
           type: "collapse",
           icon: "feather icon-file-text",
           children: [
             {
               id: "exam_upcoming_list",
-              title: "Upcoming Exams",
+              title: "Upcoming Quizzes",
               type: "item",
               url: "/student/exam/list",
             },
             {
               id: "exam_past-exam_list",
-              title: "Past Exams",
+              title: "Past Quizzes",
               type: "item",
               url: "/student/past-exam/list",
             },

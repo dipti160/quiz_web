@@ -5,6 +5,7 @@ import {
   Card,
   Table,
   Button,
+  Pagination,
   InputGroup,
   FormControl,
 } from "react-bootstrap";
@@ -18,15 +19,25 @@ import {
 
 const InstructorStudentList = () => {
   const [students, setStudents] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [instructorData, setInstructorData] = useState(null);
 
   useEffect(() => {
-    const instructorData = JSON.parse(localStorage.getItem("user"));
-
+    const instructorDataLocal = JSON.parse(localStorage.getItem("user"));
+    setInstructorData(instructorDataLocal);
     const fetchStudents = async () => {
       try {
-        if (instructorData?.id) {
-          const response = await listStudentsByInstructor(instructorData?.id);
-          setStudents(response);
+        if (instructorDataLocal?.id) {
+          const response = await listStudentsByInstructor(
+            instructorDataLocal?.id,
+            page,
+            limit
+          );
+          // setStudents(response);
+          setStudents(response?.data);
+          setTotalPages(response?.totalPages);
         } else {
           console.log("Instructor data is not set");
         }
@@ -38,7 +49,7 @@ const InstructorStudentList = () => {
     fetchStudents();
 
     return () => {};
-  }, []);
+  }, [page, limit]);
 
   const handleDelete = async (id) => {
     const res = await deleteStudentByInstructor(id);
@@ -56,7 +67,8 @@ const InstructorStudentList = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Row>
+              <Card.Title as="h5">Students</Card.Title>
+              {/* <Row>
                 <Col md={6}></Col>
                 <Col md={6}>
                   <InputGroup>
@@ -69,7 +81,7 @@ const InstructorStudentList = () => {
                     </InputGroup.Append>
                   </InputGroup>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Header>
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
@@ -122,6 +134,16 @@ const InstructorStudentList = () => {
                   )}
                 </tbody>
               </Table>
+              <Pagination size="lg">
+                <Pagination.Prev
+                  onClick={() => setPage(Math.max(page - 1, 1))}
+                  disabled={page === 1}
+                />
+                <Pagination.Next
+                  onClick={() => setPage(Math.min(page + 1, totalPages))}
+                  disabled={page === totalPages}
+                />
+              </Pagination>
             </Card.Body>
           </Card>
         </Col>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
 
 import Aux from "../../../hoc/_Aux";
 import {
@@ -23,6 +23,7 @@ const InstructorStudentForm = (props) => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,7 +110,12 @@ const InstructorStudentForm = (props) => {
 
           const res = await createStudentByInstructor(data);
           if (Object.values(res)?.length) {
-            props.history.push("/instructor/student/list");
+            if (res?.email) {
+              setError("Email is already exist");
+            }
+            if (res?.data) {
+              props.history.push("/instructor/student/list");
+            }
           }
         }
       }
@@ -120,6 +126,7 @@ const InstructorStudentForm = (props) => {
 
   return (
     <Aux>
+      {error ? <Alert variant="danger">{error}</Alert> : ""}
       <Row>
         <Col>
           <Card>

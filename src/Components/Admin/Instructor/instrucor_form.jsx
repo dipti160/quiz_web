@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
 
 import Aux from "../../../hoc/_Aux";
 import {
   createInstructor,
+  getAllCourse,
   getAllDepartment,
   getInstructorById,
   listCourses,
@@ -21,6 +22,7 @@ const InstrucorForm = (props) => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +30,7 @@ const InstrucorForm = (props) => {
         const response = await getAllDepartment();
         setDepartments(response);
 
-        const res = await listCourses();
+        const res = await getAllCourse();
         setCourses(res);
 
         if (props?.match?.params?.id) {
@@ -54,6 +56,11 @@ const InstrucorForm = (props) => {
 
     return () => {};
   }, [props?.match?.params?.id]);
+
+  const formattedNumber = (id) => {
+    const newCourseId = String(id).padStart(4, "0");
+    return newCourseId;
+  };
 
   const filteredCourses = courses.filter(
     (course) => course.department_id == departmentId
@@ -93,8 +100,17 @@ const InstrucorForm = (props) => {
           };
 
           const res = await createInstructor(data);
+
           if (Object.values(res)?.length) {
-            props.history.push("/admin/instructor/list");
+            if (res?.email) {
+              setError("Email is already exist");
+            }
+            if (res?.course) {
+              setError("Course is already assign");
+            }
+            if (res?.data) {
+              props.history.push("/admin/instructor/list");
+            }
           }
         }
       }
@@ -109,6 +125,7 @@ const InstrucorForm = (props) => {
 
   return (
     <Aux>
+      {error ? <Alert variant="danger">{error}</Alert> : ""}
       <Row>
         <Col>
           <Card>
@@ -191,7 +208,7 @@ const InstrucorForm = (props) => {
                       <option value="">Select Course</option>
                       {filteredCourses.map((course) => (
                         <option key={course.id} value={String(course.id)}>
-                          {course.name}
+                          {course.name + "-" + formattedNumber(course.id)}
                         </option>
                       ))}
                     </Form.Control>

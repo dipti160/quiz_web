@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
 import "./../../assets/scss/style.scss";
 import Aux from "../../hoc/_Aux";
@@ -24,6 +25,7 @@ const Register = (props) => {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -85,6 +87,7 @@ const Register = (props) => {
 
     if (hasErrors) {
       console.log("Validation errors found. Registration not submitted.");
+      setError("Validation errors found. Registration not submitted.");
       return;
     }
 
@@ -95,12 +98,13 @@ const Register = (props) => {
       }
     } catch (error) {
       console.error("Registration failed:", error);
+      setError("Registration failed.");
     }
   };
   return (
     <Aux>
       <Breadcrumb />
-
+      {error ? <Alert variant="danger">{error}</Alert> : ""}
       <div className="auth-wrapper">
         <div className="auth-content">
           <div className="auth-bg">

@@ -4,6 +4,7 @@ import {
   Col,
   Card,
   Table,
+  Pagination,
   Button,
   InputGroup,
   FormControl,
@@ -15,21 +16,30 @@ import { deleteStudent, listStudents } from "../../../api";
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const response = await listStudents();
-        setStudents(response);
-      } catch (error) {
-        console.log("Error fetching department list:", error);
-      }
-    };
-
     fetchStudents();
 
     return () => {};
-  }, []);
+  }, [page, limit]);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await listStudents(page, limit);
+      setStudents(response?.data);
+      setTotalPages(response?.totalPages);
+    } catch (error) {
+      console.log("Error fetching department list:", error);
+    }
+  };
+
+  const formattedNumber = (id) => {
+    const newCourseId = String(id).padStart(4, "0");
+    return newCourseId;
+  };
 
   const handleDelete = async (id) => {
     const res = await deleteStudent(id);
@@ -47,7 +57,8 @@ const StudentList = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Row>
+              <Card.Title as="h5">Students</Card.Title>
+              {/* <Row>
                 <Col md={6}></Col>
                 <Col md={6}>
                   <InputGroup>
@@ -60,7 +71,7 @@ const StudentList = () => {
                     </InputGroup.Append>
                   </InputGroup>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Header>
             <Card.Body>
               <Table responsive style={{ textAlign: "center" }} bordered>
@@ -83,7 +94,11 @@ const StudentList = () => {
                         <td>{index + 1}</td>
                         <td>{student.firstname}</td>
                         <td>{student.email}</td>
-                        <td>{student?.UserCourses[0]?.Course?.name}</td>
+                        <td>
+                          {student?.UserCourses[0]?.Course?.name +
+                            "-" +
+                            formattedNumber(student?.UserCourses[0]?.course_id)}
+                        </td>
                         <td>{student?.UserDepartments[0]?.Department?.name}</td>
                         {/* <td>
                           <Link
@@ -113,6 +128,16 @@ const StudentList = () => {
                   )}
                 </tbody>
               </Table>
+              <Pagination size="lg">
+                <Pagination.Prev
+                  onClick={() => setPage(Math.max(page - 1, 1))}
+                  disabled={page === 1}
+                />
+                <Pagination.Next
+                  onClick={() => setPage(Math.min(page + 1, totalPages))}
+                  disabled={page === totalPages}
+                />
+              </Pagination>
             </Card.Body>
           </Card>
         </Col>

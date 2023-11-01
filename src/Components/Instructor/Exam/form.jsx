@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
 
 import Aux from "../../../hoc/_Aux";
 import { createExam, getExamById, updateExam } from "../../../api";
@@ -14,6 +14,7 @@ const ExamForm = (props) => {
   const [instrcution, setInstruction] = useState("");
   const [instructorId, setInstructorId] = useState("");
   const [courseId, setCourseId] = useState("");
+  const [error, setError] = useState(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -75,6 +76,45 @@ const ExamForm = (props) => {
 
   const handleSubmit = async () => {
     try {
+      if (!examName) {
+        setError("Exam Name is required");
+        return;
+      }
+
+      if (!startDate) {
+        setError("Start Date is required");
+        return;
+      }
+
+      // const userTimeZone = "America/Los_Angeles";
+
+      // const currentDate = new Date(
+      //   new Date().toLocaleString("en-US", { timeZone: userTimeZone })
+      // );
+      // const selectedStartDate = new Date(startDate).toLocaleString("en-US", {
+      //   timeZone: userTimeZone,
+      // });
+      // console.log(selectedStartDate);
+      // console.log(currentDate, "currentDate");
+      // if (selectedStartDate < currentDate) {
+      //   setError("Start Date cannot be in the past");
+      //   return;
+      // }
+
+      if (!endDate) {
+        setError("End Date is required");
+        return;
+      }
+
+      if (examDuration <= 0) {
+        setError("Exam Duration should be greater than zero");
+        return;
+      }
+
+      if (totalMarks <= 0) {
+        setError("Total Marks should be greater than zero");
+        return;
+      }
       if (id) {
         if (examName && examDuration && startDate && endDate && totalMarks) {
           const data = {
@@ -122,18 +162,19 @@ const ExamForm = (props) => {
 
   return (
     <Aux>
+      {error ? <Alert variant="danger">{error}</Alert> : ""}
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <Card.Title as="h5">Please create exam here</Card.Title>
+              <Card.Title as="h5">Please create quiz here</Card.Title>
             </Card.Header>
             <Card.Body>
               <Row>
                 <Col md={6}>
                   <Form>
                     <Form.Group controlId="exampleForm.ControlInput1">
-                      <Form.Label>Exam Name</Form.Label>
+                      <Form.Label>Quiz Name</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Exam Name"
@@ -167,7 +208,7 @@ const ExamForm = (props) => {
                 </Col>
                 <Col md={6}>
                   <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Exam Duration</Form.Label>
+                    <Form.Label>Quiz Duration</Form.Label>
                     <Form.Control
                       type="number"
                       placeholder="Enter exam duration"
@@ -184,15 +225,15 @@ const ExamForm = (props) => {
                       onChange={(e) => setEndDate(e.target.value)}
                     />
                   </Form.Group>
-                  <Form.Group controlId="exampleForm.textarea">
-                    <Form.Label>Exam Instrcution</Form.Label>
+                  {/* <Form.Group controlId="exampleForm.textarea">
+                    <Form.Label>Quiz Instrcution</Form.Label>
                     <Form.Control
                       as="textarea"
                       placeholder="Exam Instrcution"
                       value={instrcution}
                       onChange={(e) => setInstruction(e.target.value)}
                     />
-                  </Form.Group>
+                  </Form.Group> */}
                 </Col>
               </Row>
             </Card.Body>

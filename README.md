@@ -1,68 +1,74 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Quiz Web Application for Educational Institutions 🎓
+
+A web-based application designed to facilitate quiz creation and participation, with role-based functionalities for Admin, Instructor, and Student. This application ensures smooth management of quizzes, departments, courses, and students while maintaining academic integrity through cheating prevention features.
+
+## Table of Contents
+- [Project Description](#project-description)
+- [Available Scripts](#available-scripts)
+- [Learn More](#learn-more)
+- [Dependencies](#dependencies)
+
+## Project Description
+
+The **Quiz Web Application** is designed to simplify the process of quiz creation and participation in educational institutions. The app includes three key roles:
+- **Admin**: Manages departments, courses, and instructors.
+- **Instructor**: Creates, schedules, and manages quizzes, and handles student data.
+- **Student**: Takes quizzes and views results.
+
+Key features include:
+- **Role-based access**: Different features for Admin, Instructor, and Student roles.
+- **Quiz management**: Instructors can schedule quizzes, create questions, and manage students.
+- **Cheating prevention**: Measures are in place to ensure fairness during online tests.
+- **User-friendly interface**: Designed for easy navigation and accessibility.
+
+**[Read the full report here](https://scholarworks.lib.csusb.edu/etd/1818/).**
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run the following commands:
 
 ### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
+Runs the app in the development mode.  
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.  
+The page will reload if you make edits.  
 You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in the interactive watch mode.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
+Builds the app for production to the `build` folder.  
+It correctly bundles React in production mode and optimizes the build for the best performance.  
+The build is minified and the filenames include the hashes.  
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.  
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc.) right into your project so you have full control over them.
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Dependencies
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- **React**: 16.8.4
+- **React Router DOM**: 4.3.1
+- **Redux**: 4.0.1
+- **React-Bootstrap**: 1.0.0-beta.5
+- **Axios**: 1.5.1
+- **Sass**: 1.55.0
+- **React-Select**: 5.7.7
+- **React-Redux**: 6.0.1
+- And more...
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Contact
 
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Created by [Dipti Rathod](https://github.com/dipti160) – feel free to reach out!
